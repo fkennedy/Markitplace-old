@@ -1,0 +1,12 @@
+.brand-logo
+{
+  font-family: "Pacifico", cursive;
+}
+
+#map-leaflet
+{
+  width: 100%;
+  height: 75vh;
+  font-family: "Lato";
+  font-variant: caps;
+}
