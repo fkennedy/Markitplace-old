@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta property="og:image:type" content="image/png"/>
-  <meta name="twitter:card" content="summary_large_image"/>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
@@ -11,7 +10,6 @@
   <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Pacifico|Satisfy|Lato|Montserrat" rel="stylesheet">
   <script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
   <link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
-  <link rel="stylesheet" type="text/css" href="style.css">
   <title>Mark It | LA Hacks</title>
 </head>
 
@@ -25,9 +23,12 @@
   </nav>
 </div>
 
+<div id='filters' class='filter-ui'></div>
+
 <!-- MAPBOX -->
 <div id="map-leaflet">
   <script src="main.js"></script>
 </div>
 
 </body>
+</html>

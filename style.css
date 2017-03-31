@@ -1,3 +1,9 @@
+body 
+{ 
+  margin:0; 
+  padding:0; 
+}
+  
 .brand-logo
 {
   font-family: "Pacifico", cursive;
@@ -9,4 +15,16 @@
   height: 75vh;
   font-family: "Lato";
   font-variant: caps;
+  position: absolute;
+}
+
+.filter-ui 
+{
+  background:#fff;
+  position:absolute;
+  top:75px;
+  right:10px;
+  z-index:100;
+  padding:10px;
+  border-radius:3px;
 }
