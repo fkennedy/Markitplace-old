@@ -1,5 +1,5 @@
 L.mapbox.accessToken = 'pk.eyJ1Ijoibnd0c2FpIiwiYSI6ImNqMHhkZnJoajAwN3Uyd3FkZGh6Yjg0YWwifQ.xjVvrwXc_XQuc7hnWO4YXw';
-var map = L.mapbox.map('map-leaflet', 'mapbox.streets').setView([34.04048, -118.43791], 13);
+var map = L.mapbox.map('map-leaflet', 'mapbox.streets').setView([34.04048, -118.43791], 12.5);
 
 // Have a static JSON. Need to make this a dynamic object
 var markers = { 
