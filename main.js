@@ -1,34 +1,61 @@
+L.mapbox.accessToken = 'pk.eyJ1Ijoibnd0c2FpIiwiYSI6ImNqMHhkZnJoajAwN3Uyd3FkZGh6Yjg0YWwifQ.xjVvrwXc_XQuc7hnWO4YXw';
+var map = L.mapbox.map('map-leaflet', 'mapbox.streets').setView([34.068921, -118.44518110000001], 15);
+
+var markers = {features: []};
+
+var featureLayer = L.mapbox.featureLayer(markers).addTo(map);
+featureLayer.setGeoJSON(markers);
+map.scrollWheelZoom.disable();
+
 // Global Category Objects
 var categories = {
   'Furniture': {
     'color': 'blue',
-    'marker_color': '#4283f4',
+    'marker_color': '#03A9F4',
     'marker_size': 'medium',
     'marker_symbol': 'lodging' 
   },
   'Technology': {
     'color': 'orange',
-    'marker_color': '#ff5722',
+    'marker_color': '#FF9800',
     'marker_size': 'medium',
     'marker_symbol': 'rocket'
   },
   'Clothing': {
     'color': 'purple',
-    'marker_color': '#ca41f4',
+    'marker_color': '#673AB7',
     'marker_size': 'medium',
     'marker_symbol': 'clothing-store'
   },
   'Transportation': {
     'color': 'yellow',
-    'marker-color': '#f4eb41',
-    'marker-size': 'medium',
-    'marker-symbol': 'car'
+    'marker_color': '#FFEB3B',
+    'marker_size': 'medium',
+    'marker_symbol': 'car'
   },
-  'Residential': {
-    'color': 'green',
-    'marker-color': '#58f441',
-    'marker-size': 'medium',
-    'marker-symbol': 'city'
+  'Household': {
+    'color': 'teal',
+    'marker_color': '#26A69A',
+    'marker_size': 'medium',
+    'marker_symbol': 'village'
+  },
+  'Food': {
+    'color': 'red',
+    'marker_color': '#F44336',
+    'marker_size': 'medium',
+    'marker_symbol': 'restaurant'
+  },
+  'Pets': {
+    'color': 'brown',
+    'marker_color': '#795548',
+    'marker_size': 'medium',
+    'marker_symbol': 'dog-park'
+  },
+  'Other': {
+    'color': 'grey',
+    'marker_color': '#9E9E9E',
+    'marker_size': 'medium',
+    'marker_symbol': 'embassy'
   }
 }
 
@@ -38,11 +65,12 @@ var checkboxes = {
 }
 
 var userId, userName;
+var intervalID;
 
 function onAuth() {
   document.getElementById("authorize-button").innerHTML = "Switch account";
-  // document.getElementById("authorized").style.display = "";
   loadItems();
+  intervalID = setInterval(loadItems, 10000);
   userinfo(function onSuccess(response) {
     console.log("User info: " + JSON.stringify(response, null, 2));
     userId = response.id, userName = response.name;
@@ -51,10 +79,11 @@ function onAuth() {
 }
 function loadItems() {
   getValues(function onSuccess(response) {
+    markers = {features: []};
     for (let row = 1; row < response.length; row++) {
+      waitingMarkers++;
       createMarker(response[row][0], response[row][1], response[row][2], response[row][3], response[row][4], response[row][5]);
     }
-    console.log(response);
   });
 }
 function addItem() {
@@ -76,11 +105,7 @@ function deleteItem() {
   });
 }
 
-L.mapbox.accessToken = 'pk.eyJ1Ijoibnd0c2FpIiwiYSI6ImNqMHhkZnJoajAwN3Uyd3FkZGh6Yjg0YWwifQ.xjVvrwXc_XQuc7hnWO4YXw';
-var map = L.mapbox.map('map-leaflet', 'mapbox.streets').setView([34.04048, -118.43791], 12.5);
-
 // Have a static JSON. Need to make this a dynamic object
-var markers = {features: []};
 /*var markers = { 
   features: [
     {
@@ -256,15 +281,8 @@ var markers = {features: []};
   ]
 };*/
 
-var featureLayer = L.mapbox.featureLayer(markers).addTo(map);
-featureLayer.setGeoJSON(markers);
-map.scrollWheelZoom.disable();
-
 // When the window loads
 window.onload = function() {
-  // Load the map to reflect the back end data
-  updateMap();
-
   // Interface with the button
   var markButton = document.getElementById('MarkItButton');
   markButton.onclick = function() {
@@ -276,34 +294,25 @@ window.onload = function() {
   loadCheckboxes('priceFilter', 'price');
 }
 
-// Update the map 
-function updateMap() {
-
-}
-
 // Initialize dom objects
 $(document).ready(function() {
   $('select').material_select();
 });
 
 // Initially load the filter checkbox list
-function loadCheckboxes(filter_id ,filter_type) 
-{
+function loadCheckboxes(filter_id ,filter_type) {
   // Find and store a variable reference to the list of filters
   var filters = document.getElementById(filter_id);
   var my_filter = {};
   var labels = [];
   filters.innerHTML = "";
-  if (filter_type == 'price') {
+  if (filter_type == 'price')
     for (let range of priceranges)
       labels.push("$" + range[0] + " to $" + range[1]);
-  }
   else if (filter_type == 'category') {
-    var features = featureLayer.getGeoJSON().features;
-    for (var i = 0; i < features.length; i++) {
-      my_filter[features[i].properties[filter_type]] = true;
+    for (let key in categories) {
+      labels.push(key);
     }
-    for (var k in my_filter) labels.push(k);
   }
   for (var i = 0; i < labels.length; i++) {
     var item = filters.appendChild(document.createElement('form'));
@@ -374,7 +383,7 @@ function createMarker(userName, location, title, price, description, category) {
       console.log(longitude);
       markers.features.push(
       {
-        type: 'Feature',
+        type: 'Feature',  
         geometry: {
           type: 'Point',
           coordinates: [longitude, latitude]
@@ -390,9 +399,17 @@ function createMarker(userName, location, title, price, description, category) {
           'marker-symbol': categories[category].marker_symbol
         }
       });
-      featureLayer.setGeoJSON(markers);
-    } 
+      drawMarkers();
+    }
   }); 
+}
+
+var waitingMarkers = 0;
+function drawMarkers() {
+  if (waitingMarkers > 0)
+    waitingMarkers--;
+  if (waitingMarkers == 0)
+    featureLayer.setGeoJSON(markers);
 }
 
 function changeFunc() {
