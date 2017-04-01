@@ -91,3 +91,19 @@ function removeAvailability(clickedID) {
     var id = clickedID.substr(6);
     $("div").remove("#item"+id);
 }
+
+// -----------------------------------------------------------------------------
+// Change item type
+// -----------------------------------------------------------------------------
+
+function selectService() {
+	$("#item").hide();
+	$("#service").show();
+	$('#itemtype').attr("value","service");
+}
+
+function selectItem() {
+	$("#item").show();
+	$("#service").hide();
+	$('#itemtype').attr("value","item");
+}
