@@ -96,14 +96,7 @@ function removeAvailability(clickedID) {
 // Change item type
 // -----------------------------------------------------------------------------
 
-function selectService() {
-	$("#item").hide();
-	$("#service").show();
-	$('#itemtype').attr("value","service");
-}
-
-function selectItem() {
-	$("#item").show();
-	$("#service").hide();
-	$('#itemtype').attr("value","item");
+function selectItemType(){
+	$(".item").toggle();
+	$(".service").toggle();
 }
