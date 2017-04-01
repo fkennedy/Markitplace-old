@@ -57,18 +57,26 @@
                         </li>
                     </div>
                     <div class="row">
-                        <select>
-                            <option value="item">Item</option>
-                            <option value="service">Service</option>
-                        </select>
-                    </div>
+						<!-- Type of product Section -->
+						<li>
+							<div class="col s6">
+								<a class="waves-effect waves-light btn" onclick="selectItem()">Item</a>
+							</div>
+						</li>
+						<li>
+							<div class="col s6">
+								<a class="waves-effect waves-light btn" onclick="selectService()">Service</a>
+							</div>
+						</li>
+						<input id="itemtype" type="hidden" name="itemtype" value="item">
+					</div>
                     <div class="row">
-                        <!-- Item Section -->
+                        <!-- Item name Section -->
                         <li>
                             <div class="input-field col s12 l4">
                                 <i class="material-icons prefix">local_offer</i>
-                                <input id="item" type="text">
-                                <label for="item">Item</label>
+                                <input id="productname" type="text">
+                                <label for="productname">Name of Item</label>
                             </div>
                         </li>
                         <!-- Price Section -->
@@ -79,9 +87,20 @@
                                 <label for="price">Price</label>
                             </div>
                         </li>
+						<li>
+							<div id="service" class="input-field col s12 l6" style="display:none">
+								<select>
+									<option value="" disabled selected>Pricing Type</option>
+									<option value="1">Flat Rate</option>
+									<option value="2">Per Hour</option>
+									<option value="3">Per Item</option>
+									<option value="4">Contact Seller</option>
+								</select>
+							</div>
+						</li>
                         <!-- Category Section -->
                         <li>
-                            <div class="input-field col s12 l6">
+                            <div id="item" class="input-field col s12 l6 item">
                                 <i class="material-icons prefix"></i>
                                 <select id="category">
                                     <option value="" selected disabled>Category</option>
@@ -99,7 +118,7 @@
                             </div>
                         </li>
                     </div>
-
+					
                     <!-- Description Section -->
                     <div class="row">
                         <li>
