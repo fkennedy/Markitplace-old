@@ -177,24 +177,9 @@ map.scrollWheelZoom.disable();
 window.onload = function() {
   var markButton = document.getElementById('MarkItButton');
   markButton.onclick = function() {
-    createMarker(34.081403, -118.413198, 'TEST', 'TESTING', 'Furniture', 'blue', '#4283f4', 'medium', 'lodging');
+    createMarker(34.1, -118.425, 'TEST', 'TESTING', 'Furniture', 'blue', '#4283f4', 'medium', 'lodging');
   }
   loadFilters();
-  getLocation();
-}
-
-function getLocation() 
-{
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
-}
-
-function showPosition(position) {
-    console.log(position.coords.latitude); 
-    console.log(position.coords.longitude); 
 }
 
 // Find and store a variable reference to the list of filters.
@@ -207,9 +192,6 @@ var filters = document.getElementById('filters');
 // Initially load the filter list
 function loadFilters() 
 {
-  // Collect the types of symbols in this layer. you can also just
-  // hardcode an array of types if you know what you want to filter on,
-  // like var types = ['foo', 'bar'];
   var categories = {}, types = [];
   var features = featureLayer.getGeoJSON().features;
   for (var i = 0; i < features.length; i++) categories[features[i].properties['category']] = true;
@@ -233,8 +215,6 @@ function loadFilters()
     checkboxes.push(checkbox);
   }
 
-  // This function is called whenever someone clicks on a checkbox and changes
-  // the selection of markers to be displayed.
   function update() 
   {
     var enabled = {};
@@ -252,6 +232,7 @@ function setCheckboxFormat()
 // Create a marker with the specified details, and add it to the current JSON Object
 function createMarker(latitude, longitude, title, description, category, color, marker_color, marker_size, marker_symbol)
 {
+  convertAddressToLatLng("UCLA");
   markers.features.push(
     {
       type: 'Feature',
@@ -272,4 +253,21 @@ function createMarker(latitude, longitude, title, description, category, color, 
   );
   console.log(markers);
   featureLayer.setGeoJSON(markers);
+}
+
+// Convert from address to latitude longitude
+function convertAddressToLatLng(address)
+{
+  var geocoder = new google.maps.Geocoder();
+
+  geocoder.geocode( { 'address': address}, function(results, status) 
+  {
+    if (status == google.maps.GeocoderStatus.OK) 
+    {
+      var latitude = results[0].geometry.location.lat();
+      var longitude = results[0].geometry.location.lng();
+      console.log(latitude);
+      console.log(longitude);
+    } 
+  }); 
 }
