@@ -173,12 +173,28 @@ var featureLayer = L.mapbox.featureLayer(markers).addTo(map);
 featureLayer.setGeoJSON(markers);
 map.scrollWheelZoom.disable();
 
+// When the window loads, set an onclick for the mark button
 window.onload = function() {
   var markButton = document.getElementById('MarkItButton');
   markButton.onclick = function() {
     createMarker(34.081403, -118.413198, 'TEST', 'TESTING', 'Furniture', 'blue', '#4283f4', 'medium', 'lodging');
   }
   loadFilters();
+  getLocation();
+}
+
+function getLocation() 
+{
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function showPosition(position) {
+    console.log(position.coords.latitude); 
+    console.log(position.coords.longitude); 
 }
 
 // Find and store a variable reference to the list of filters.
