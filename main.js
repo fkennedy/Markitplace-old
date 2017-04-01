@@ -4,7 +4,7 @@ var map = L.mapbox.map('map-leaflet', 'mapbox.streets').setView([34.04048, -118.
 // Have a static JSON. Need to make this a dynamic object
 var markers = 
 { 
-  "features": 
+  features: 
   [
     {
       type: 'Feature',
@@ -173,17 +173,22 @@ var featureLayer = L.mapbox.featureLayer(markers).addTo(map);
 featureLayer.setGeoJSON(markers);
 map.scrollWheelZoom.disable();
 
+window.onload = function() {
+  var markButton = document.getElementById('MarkItButton');
+  markButton.onclick = function() {
+    createMarker(34.081403, -118.413198, 'TEST', 'TESTING', 'Furniture', 'blue', '#4283f4', 'medium', 'lodging');
+  }
+  loadFilters();
+}
+
 // Find and store a variable reference to the list of filters.
 var filters = document.getElementById('filters');
-
-$(document).ready(function() 
-{
-   loadFilters();
-});
 
 // Wait until the marker layer is loaded in order to build a list of possible
 // types. If you are doing this with another featureLayer, you should change
 // map.featureLayer to the variable you have assigned to your featureLayer.
+
+// Initially load the filter list
 function loadFilters() 
 {
   // Collect the types of symbols in this layer. you can also just
@@ -222,14 +227,33 @@ function loadFilters()
   }
 };
 
+// Make the checkboxes filled in
 function setCheckboxFormat() 
 {
   $('input').addClass('filled-in checkbox-default');
 }
 
-$('#MarkItButton').addEventListener('onClick', showForm);
-
-function showForm () 
+// Create a marker with the specified details, and add it to the current JSON Object
+function createMarker(latitude, longitude, title, description, category, color, marker_color, marker_size, marker_symbol)
 {
-  
+  markers.features.push(
+    {
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [longitude, latitude]
+      },
+      properties: {
+        title: '<h1 style="font-family: Pacifico, cursive; font-size: large;">' + title + '</h1>',
+        description: '<h1 style="font-family: Lato; font-size: small">' + description + '</h1>',
+        'category': category,
+        'color': color,
+        'marker-color': marker_color,
+        'marker-size': marker_size,
+        'marker-symbol': marker_symbol
+      }
+    }
+  );
+  console.log(markers);
+  featureLayer.setGeoJSON(markers);
 }
