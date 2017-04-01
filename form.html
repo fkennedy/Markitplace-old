@@ -47,17 +47,9 @@
             <ul>
                 <form id ="foo" class="col s12">
                     <div class="row">
-                        <!-- Name Section -->
+                        <!-- Facebook username Section -->
                         <li>
-                            <div class="input-field col s12 m6 l6">
-                                <i class="material-icons prefix">person</i>
-                                <input id="name" type="text">
-                                <label for="name">Name</label>
-                            </div>
-                        </li>
-                        <!-- Email Section -->
-                        <li>
-                            <div class="input-field col s12 m6 l6">
+                            <div class="input-field col s12">
                                 <i class="material-icons prefix">public</i>
                                 <input id="username" type="text">
                                 <label for="username">Facebook Username</label>
@@ -68,7 +60,7 @@
                     <div class="row">
                         <!-- Item Section -->
                         <li>
-                            <div class="input-field col s12 l6">
+                            <div class="input-field col s12 l4">
                                 <i class="material-icons prefix">local_offer</i>
                                 <input id="item" type="text">
                                 <label for="item">Item</label>
@@ -76,16 +68,13 @@
                         </li>
                         <!-- Price Section -->
                         <li>
-                            <div class="input-field col s12 l6">
+                            <div class="input-field col s12 l2">
                                 <i class="material-icons prefix">attach_money</i>
                                 <input id="price" type="text">
                                 <label for="price">Price</label>
                             </div>
                         </li>
-                    </div>
-
-                    <!-- Category Section -->
-                    <div class="row">
+                        <!-- Category Section -->
                         <li>
                             <div class="input-field col s12 l6">
                                 <i class="material-icons prefix"></i>
@@ -103,10 +92,6 @@
                                     <option value="information">Other</option>
                                 </select>
                             </div>
-                            <div class="input-field col s12 l6" id="">
-                                <i class="material-icons prefix"></i>
-                                <input id="categoryOther" type="text">
-
                         </li>
                     </div>
 
@@ -166,13 +151,13 @@
                                     <label for="location1">Location</label>
                                 </div>
                                 <div id="item1" class="input-field col s5 l1">
-                                    <a class="waves-effect waves-teal btn-flat" onClick="removeAvailability();">Remove</a>
+                                    <a class="waves-effect waves-teal btn-flat" id="remove1" onClick="removeAvailability(this.id);">Remove</a>
                                 </div>
                             </div>
                         </li>
                         <li>
                             <div class="col s12">
-                                <a class="waves-effect waves-light btn" id="btnAdd" onClick="addAvailability();"><i class="material-icons left">add</i>Add Day</a>
+                                <a class="waves-effect waves-light btn" onClick="addAvailability();"><i class="material-icons left">add</i>Add Day</a>
                             </div>
                         </li>
                     </div>
