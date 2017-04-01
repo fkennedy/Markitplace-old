@@ -176,26 +176,26 @@ map.scrollWheelZoom.disable();
 // Find and store a variable reference to the list of filters.
 var filters = document.getElementById('filters');
 
-$(document).ready(function() {
+$(document).ready(function() 
+{
    loadFilters();
 });
 
 // Wait until the marker layer is loaded in order to build a list of possible
 // types. If you are doing this with another featureLayer, you should change
 // map.featureLayer to the variable you have assigned to your featureLayer.
-function loadFilters() {
+function loadFilters() 
+{
   // Collect the types of symbols in this layer. you can also just
   // hardcode an array of types if you know what you want to filter on,
   // like var types = ['foo', 'bar'];
   var categories = {}, types = [];
   var features = featureLayer.getGeoJSON().features;
-  for (var i = 0; i < features.length; i++) {
-    categories[features[i].properties['category']] = true;
-  }
+  for (var i = 0; i < features.length; i++) categories[features[i].properties['category']] = true;
   for (var k in categories) types.push(k);
   var checkboxes = [];
-  // Create a filter interface.
-  for (var i = 0; i < types.length; i++) {
+  for (var i = 0; i < types.length; i++) 
+  {
     // Create an an input checkbox and label inside.
     var item = filters.appendChild(document.createElement('form'));
     var checkbox = item.appendChild(document.createElement('input'));
@@ -214,24 +214,22 @@ function loadFilters() {
 
   // This function is called whenever someone clicks on a checkbox and changes
   // the selection of markers to be displayed.
-  function update() {
+  function update() 
+  {
     var enabled = {};
-    // Run through each checkbox and record whether it is checked. If it is,
-    // add it to the object of types to display, otherwise do not.
-    for (var i = 0; i < checkboxes.length; i++) {
-      if (checkboxes[i].checked) enabled[checkboxes[i].id] = true;
-    }
-    featureLayer.setFilter(function(feature) {
-      // If this symbol is in the list, return true. if not, return false.
-      // The 'in' operator in javascript does exactly that: given a string
-      // or number, it says if that is in a object.
-      // 2 in { 2: true } // true
-      // 2 in { } // false
-      return (feature.properties['category'] in enabled);
-    });
+    for (var i = 0; i < checkboxes.length; i++) if (checkboxes[i].checked) enabled[checkboxes[i].id] = true;
+    featureLayer.setFilter(function(feature) { return (feature.properties['category'] in enabled); });
   }
 };
 
-function setCheckboxFormat() {
+function setCheckboxFormat() 
+{
   $('input').addClass('filled-in checkbox-default');
+}
+
+$('#MarkItButton').addEventListener('onClick', showForm);
+
+function showForm () 
+{
+  
 }
