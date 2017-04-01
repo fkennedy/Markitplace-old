@@ -13,6 +13,8 @@
   <link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3f3kG0_wB2qIDI6ZEPY_iTkug86bOqHI"
   type="text/javascript"></script>
+  <script type="text/javascript" src="backend.js"></script>
+  <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
   <title>Markitplace | LA Hacks</title>
 </head>
 
@@ -20,13 +22,27 @@
 
 <div>
   <nav>
-    <div class="nav-wrapper light-blue nav-wrapper-fixed-top z-depth-4" id= "navbar">
-      <a href="#" class="brand-logo center">Markitplace</a>
+    <div class="nav-wrapper light-blue nav-wrapper-fixed-top z-depth-1" id= "navbar">
+      <a class="brand-logo center">Markitplace</a>
+      <ul class="right">
+      <li>
+      <form>
+        <div class="input-field" id="dropdown">
+        <select id="filterDropdown" onchange="changeFunc();">
+          <option value="1">Category</option>
+          <option value="2">Price Range</option> 
+          <option value="3">None</option>
+        </select>
+      </div>
+      </form>
+      </li>
+      </ul>
     </div>
   </nav>
 </div>
 
-<div id='filters' class='filter-ui'></div>
+<div id='categoryFilter' class='filter-ui'></div>
+<div style="display: none;" id='priceFilter' class='filter-ui'></div>
 
 <!-- MAPBOX -->
 <div id="map-leaflet">
@@ -35,6 +51,15 @@
 
 <!-- Mark It Button -->
 <a class="light-blue waves-effect waves-light btn-medium z-depth-1 btn" href="#" id="MarkItButton">Mark It<i class="material-icons right">location_on</i></a>
+
+<div id="authorize">
+  <h2>Login</h2>
+  User: <span id="userName"></span><br><br>
+  Please login using your g.ucla.edu account.<br>
+  <button id="authorize-button" onclick="handleAuthClick()">
+    Login
+  </button>
+</div>
 
 </body>
 </html>
