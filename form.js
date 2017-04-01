@@ -6,16 +6,6 @@ function getID() {
 }
 
 // -----------------------------------------------------------------------------
-// "Other" category
-// -----------------------------------------------------------------------------
-// document.getElementById("myDIV").style.display = "none";
-
-$("#category").change(function() {
-    if ($("#category") == "information")
-        ;
-});
-
-// -----------------------------------------------------------------------------
 // Add availabilities
 // -----------------------------------------------------------------------------
 
@@ -97,9 +87,7 @@ function addRemoveButton(divname, n) {
 // Remove availabilities
 // -----------------------------------------------------------------------------
 
-function removeAvailability() {
-    // var element = this;
-    var id = this.parentNode.id;
-    // var id = parentDiv.prop("id");
-    alert(id);
+function removeAvailability(clickedID) {
+    var id = clickedID.substr(6);
+    $("div").remove("#item"+id);
 }
