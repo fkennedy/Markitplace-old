@@ -28,3 +28,9 @@ body
   padding:10px;
   border-radius:3px;
 }
+
+.checkbox-default[type="checkbox"].filled-in:checked + label:after
+{
+  border: 2px solid #42a5f5;
+  background-color: #42a5f5;
+}

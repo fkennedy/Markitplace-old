@@ -1,10 +1,9 @@
 L.mapbox.accessToken = 'pk.eyJ1Ijoibnd0c2FpIiwiYSI6ImNqMHhkZnJoajAwN3Uyd3FkZGh6Yjg0YWwifQ.xjVvrwXc_XQuc7hnWO4YXw';
 var map = L.mapbox.map('map-leaflet', 'mapbox.streets').setView([34.04048, -118.43791], 12);
 
-var featureLayer = L.mapbox.featureLayer(markers).addTo(map);
-
+// Have a static JSON. Need to make this a dynamic object
 var markers = 
-{ "type": "FeatureCollection",
+{ 
   "features": 
   [
     {
@@ -16,9 +15,11 @@ var markers =
       properties: {
         title: '<h1 style="font-family: Pacifico, cursive; font-size: large;">Earphones</h1>',
         description: '<h1 style="font-family: Lato; font-size: small">1777 Westwood Blvd Los Angeles, CA 90024</h1>',
+        'category': 'Technology',
+        'color': 'orange',
         'marker-color': '#ff5722',
         'marker-size': 'medium',
-        'marker-symbol': 'restaurant'
+        'marker-symbol': 'rocket'
       }
     },
     {
@@ -30,9 +31,11 @@ var markers =
       properties: {
         title: '<h1 style="font-family: Pacifico, cursive; font-size: large;">iPhone</h1>',
         description: '<h1 style="font-family: Lato; font-size: small">1205 Abbot Kinney Blvd, Venice, CA 90291</h1>',
+        'category': 'Technology',
+        'color': 'orange',
         'marker-color': '#ff5722',
         'marker-size': 'medium',
-        'marker-symbol': 'shop'
+        'marker-symbol': 'rocket'
       }
     },
     {
@@ -44,9 +47,11 @@ var markers =
       properties: {
         title: '<h1 style="font-family: Pacifico, cursive; font-size: large;">Ultra Boosts</h1>',
         description: '<h1 style="font-family: Lato; font-size: small">11043 California Route 2, Los Angeles, CA 90025</h1>',
-        'marker-color': '#ff5722',
+        'category': 'Clothing',
+        'color': 'purple',
+        'marker-color': '#ca41f4',
         'marker-size': 'medium',
-        'marker-symbol': 'restaurant'
+        'marker-symbol': 'clothing-store'
       }
     },
     {
@@ -58,9 +63,11 @@ var markers =
       properties: {
         title: '<h1 style="font-family: Pacifico, cursive; font-size: large;">iPad</h1>',
         description: '<h1 style="font-family: Lato; font-size: small">3117 Ocean Park Blvd, Santa Monica, CA 90405</h1>',
+        'category': 'Technology',
+        'color': 'orange',
         'marker-color': '#ff5722',
         'marker-size': 'medium',
-        'marker-symbol': 'restaurant'
+        'marker-symbol': 'rocket'      
       }
     },
     {
@@ -72,9 +79,11 @@ var markers =
       properties: {
         title: '<h1 style="font-family: Pacifico, cursive; font-size: large;">Sub Lease</h1>',
         description: '<h1 style="font-family: Lato; font-size: small">1915 Westwood Blvd, Los Angeles, CA 90025</h1>',
-        'marker-color': '#ff5722',
+        'category': 'Residential',
+        'color': 'green',
+        'marker-color': '#58f441',
         'marker-size': 'medium',
-        'marker-symbol': 'museum'
+        'marker-symbol': 'city'
       }
     },
     {
@@ -86,9 +95,11 @@ var markers =
       properties: {
         title: '<h1 style="font-family: Pacifico, cursive; font-size: large;">Macbook</h1>',
         description: '<h1 style="font-family: Lato; font-size: small">8871 Santa Monica Blvd West Hollywood, CA 90069</h1>',
+        'category': 'Technology',
+        'color': 'orange',
         'marker-color': '#ff5722',
         'marker-size': 'medium',
-        'marker-symbol': 'grocery'
+        'marker-symbol': 'rocket'
       }
     },
     {
@@ -100,9 +111,11 @@ var markers =
       properties: {
         title: '<h1 style="font-family: Pacifico, cursive; font-size: large;">Shelf</h1>',
         description: '<h1 style="font-family: Lato; font-size: small">8709 CA-2, West Hollywood, CA 90069</h1>',
-        'marker-color': '#ff5722',
+        'category': 'Furniture',
+        'color': 'blue',
+        'marker-color': '#4283f4',
         'marker-size': 'medium',
-        'marker-symbol': 'playground'
+        'marker-symbol': 'lodging'
       }
     },
     {
@@ -114,9 +127,11 @@ var markers =
       properties: {
         title: '<h1 style="font-family: Pacifico, cursive; font-size: large;">Desk</h1>',
         description: '<h1 style="font-family: Lato; font-size: small">2208 Sawtelle Blvd, Los Angeles, CA 90025</h1>',
-        'marker-color': '#4286f4',
+        'category': 'Furniture',
+        'color': 'blue',
+        'marker-color': '#4283f4',
         'marker-size': 'medium',
-        'marker-symbol': 'shop'
+        'marker-symbol': 'lodging'
       }
     },
     {
@@ -128,9 +143,11 @@ var markers =
       properties: {
         title: '<h1 style="font-family: Pacifico, cursive; font-size: large;">Shoe Rack</h1>',
         description: '<h1 style="font-family: Lato; font-size: small">9641 Sunset Blvd, Beverly Hills, CA 90210</h1>',
-        'marker-color': '#ff5722',
+        'category': 'Furniture',
+        'color': 'blue',
+        'marker-color': '#4283f4',
         'marker-size': 'medium',
-        'marker-symbol': 'scooter'
+        'marker-symbol': 'lodging'
       }
     },
     {
@@ -140,16 +157,19 @@ var markers =
         coordinates: [-118.44168, 34.059013]
       },
       properties: {
-        title: '<h1 style="font-family: Pacifico, cursive; font-size: large;">Fish Tank</h1>',
+        title: '<h1 style="font-family: Pacifico, cursive; font-size: large;">Honda Civic</h1>',
         description: '<h1 style="font-family: Lato; font-size: small">10850 Wilshire Blvd, Los Angeles, CA 90024</h1>',
-        'marker-color': '#f72825',
+        'category': 'Transportation',
+        'color': 'yellow',
+        'marker-color': '#f4eb41',
         'marker-size': 'medium',
-        'marker-symbol': 'rail-metro'
+        'marker-symbol': 'car'
       }
     }
   ]
-}
+};
 
+var featureLayer = L.mapbox.featureLayer(markers).addTo(map);
 featureLayer.setGeoJSON(markers);
 map.scrollWheelZoom.disable();
 
@@ -160,25 +180,28 @@ $(document).ready(function() {
    loadFilters();
 });
 
+// Wait until the marker layer is loaded in order to build a list of possible
+// types. If you are doing this with another featureLayer, you should change
+// map.featureLayer to the variable you have assigned to your featureLayer.
 function loadFilters() {
   // Collect the types of symbols in this layer. you can also just
   // hardcode an array of types if you know what you want to filter on,
   // like var types = ['foo', 'bar'];
-  var typesObj = {}, types = [];
+  var categories = {}, types = [];
   var features = featureLayer.getGeoJSON().features;
   for (var i = 0; i < features.length; i++) {
-    typesObj[features[i].properties['marker-symbol']] = true;
+    categories[features[i].properties['category']] = true;
   }
-  for (var k in typesObj) types.push(k);
-
+  for (var k in categories) types.push(k);
   var checkboxes = [];
   // Create a filter interface.
   for (var i = 0; i < types.length; i++) {
     // Create an an input checkbox and label inside.
-    var item = filters.appendChild(document.createElement('div'));
+    var item = filters.appendChild(document.createElement('form'));
     var checkbox = item.appendChild(document.createElement('input'));
     var label = item.appendChild(document.createElement('label'));
     checkbox.type = 'checkbox';
+    setCheckboxFormat();
     checkbox.id = types[i];
     checkbox.checked = true;
     // create a label to the right of the checkbox with explanatory text
@@ -204,7 +227,11 @@ function loadFilters() {
       // or number, it says if that is in a object.
       // 2 in { 2: true } // true
       // 2 in { } // false
-      return (feature.properties['marker-symbol'] in enabled);
+      return (feature.properties['category'] in enabled);
     });
   }
 };
+
+function setCheckboxFormat() {
+  $('input').addClass('filled-in checkbox-default');
+}
