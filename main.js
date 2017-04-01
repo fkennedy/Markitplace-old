@@ -79,6 +79,7 @@ function onAuth() {
 }
 function loadItems() {
   getValues(function onSuccess(response) {
+    $('#authorize').hide();
     markers = {features: []};
     for (let row = 1; row < response.length; row++) {
       waitingMarkers++;
@@ -379,8 +380,8 @@ function createMarker(userName, location, title, price, description, category) {
     if (status == google.maps.GeocoderStatus.OK) {
       var latitude = results[0].geometry.location.lat();
       var longitude = results[0].geometry.location.lng();
-      console.log(latitude);
-      console.log(longitude);
+      //console.log(latitude);
+      //console.log(longitude);
       markers.features.push(
       {
         type: 'Feature',  
@@ -425,5 +426,24 @@ function changeFunc() {
   } else if (selectedValue == 2) {
     categoryFilter.style.display = "none";
     priceFilter.style.display = "";
+  } else if (selectedValue == 3) {
+    categoryFilter.style.display = "none";
+    priceFilter.style.display = "none";
+  }
+}
+
+// A filter button is pressed
+function filterButtonPressed(filter_type) {
+  var categoryFilter = document.getElementById("categoryFilter");
+  var priceFilter = document.getElementById("priceFilter");
+  if (filter_type == 'category') {
+    categoryFilter.style.display = "";
+    priceFilter.style.display = "none";
+  } else if (filter_type == 'price') {
+    categoryFilter.style.display = "none";
+    priceFilter.style.display = "";
+  } else if (filter_type == 'none') {
+    categoryFilter.style.display = "none";
+    priceFilter.style.display = "none";
   }
 }

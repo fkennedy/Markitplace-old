@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
   <script src="https://use.fontawesome.com/d29dec308b.js"></script>
-  <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Pacifico|Satisfy|Lato|Montserrat" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Pacifico|Satisfy|Lato|Montserrat|Roboto|Fugaz+One" rel="stylesheet">
   <script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
   <link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3f3kG0_wB2qIDI6ZEPY_iTkug86bOqHI"
@@ -20,28 +20,17 @@
 
 <body>
 
+<div id="welcome">Welcome, <span id="userName"></span><br><br></div>
+
 <div>
   <nav>
-    <div class="nav-wrapper light-blue nav-wrapper-fixed-top z-depth-1" id= "navbar">
-      <a class="brand-logo center">Markitplace</a>
-      <ul class="right">
-      <li>
-      <form>
-        <div class="input-field" id="dropdown">
-        <select id="filterDropdown" onchange="changeFunc();">
-          <option value="1">Category</option>
-          <option value="2">Price Range</option> 
-          <option value="3">None</option>
-        </select>
-      </div>
-      </form>
-      </li>
-      </ul>
+    <div class="nav-wrapper black nav-wrapper-fixed-top z-depth-1" id= "navbar">
+      <a class="brand-logo center">MARKITPLACE</a>
     </div>
   </nav>
 </div>
 
-<div id='categoryFilter' class='filter-ui'></div>
+<div style="display: none;" id='categoryFilter' class='filter-ui'></div>
 <div style="display: none;" id='priceFilter' class='filter-ui'></div>
 
 <!-- MAPBOX -->
@@ -50,15 +39,24 @@
 </div>
 
 <!-- Mark It Button -->
-<a class="light-blue waves-effect waves-light btn-medium z-depth-1 btn" href="#" id="MarkItButton">Mark It<i class="material-icons right">location_on</i></a>
+<a class="black waves-effect waves-light btn-medium z-depth-1 btn" href="#" id="MarkItButton">Mark It<i class="material-icons right">location_on</i></a>
 
-<div id="authorize">
-  <h2>Login</h2>
-  User: <span id="userName"></span><br><br>
-  Please login using your g.ucla.edu account.<br>
-  <button id="authorize-button" onclick="handleAuthClick()">
-    Login
-  </button>
+<div class="login-box" id="authorize">
+  <i>Please login using your g.ucla.edu account.</i>
+  <br>
+  <br>
+  <a class="black waves-effect waves-light btn-medium z-depth-1 btn" href="#" id="authorize-button" onclick="handleAuthClick()">Login<i class="material-icons right">location_on</i></a>
+</div>
+
+<div class="fixed-action-btn horizontal click-to-toggle" id="burger">
+  <a class="btn-floating btn-large red">
+    <i class="material-icons">menu</i>
+  </a>
+  <ul id="floating-buttons">
+    <li><a href="javascript:filterButtonPressed('category')" class="btn-floating red"><i class="material-icons">turned_in</i></a></li>
+    <li><a href="javascript:filterButtonPressed('price')" class="btn-floating yellow darken-1"><i class="material-icons">attach_money</i></a></li>
+    <li><a href="javascript:filterButtonPressed('none')" class="btn-floating green"><i class="material-icons">not_interested</i></a></li>
+  </ul>
 </div>
 
 </body>
