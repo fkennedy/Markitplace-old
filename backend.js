@@ -49,6 +49,7 @@ function handleAuthResult(response) {
 
 const scriptId = "Mp2ZVT-Mdv0w0H3VnXtfCmouI75eCkdR7";
 
+// response is an object.
 function userinfo(onSuccess) {
 	let op = gapi.client.request({
 		root: "https://www.googleapis.com",
@@ -89,10 +90,17 @@ function call(func, params, onSuccess) {
 	});
 }
 
+// response is a 2-D array.
 function getValues(onSuccess) {
 	call("getValues", [], onSuccess);
 }
 
-function appendRow(row, onSuccess) {
-	call("appendRow", [row], onSuccess);
+// response is true if successful, false otherwise.
+function appendRow(userId, row, onSuccess) {
+	call("appendRow", [userId, row], onSuccess);
+}
+
+// response is true if successful, false otherwise.
+function deleteRow(userId, num, onSuccess) {
+	call("deleteRow", [userId, parseInt(num) + 1], onSuccess);
 }

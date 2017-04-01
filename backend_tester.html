@@ -22,28 +22,37 @@ function onAuth() {
 	userinfo(function onSuccess(response) {
 		console.log("User info: " + JSON.stringify(response, null, 2));
 		userId = response.id, userName = response.name;
-		document.getElementById("userId").innerHTML = userId;
 		document.getElementById("userName").innerHTML = userName;
 	});
 }
 function loadItems() {
 	getValues(function onSuccess(response) {
 		let output = "";
-		for (let row = 0; row < response.length; row++)
+		for (let row = 0; row < response.length; row++) {
+			output += (row == 0 ? "#" : row) + '\t';
 			for (let col = 0; col < response[row].length; col++)
 				output += response[row][col] 
 					+ (col == response[row].length - 1 ? '\n' : '\t');
+		}
 		document.getElementById("items").innerHTML = output;
 	});
 }
 function addItem() {
-	appendRow([
-		userId,
+	appendRow(userId, [
 		userName,
 		document.getElementById("item").value,
 		document.getElementById("price").value
 	], function onSuccess(response) {
 		loadItems();
+	});
+}
+function deleteItem() {
+	deleteRow(userId, document.getElementById("toDelete").value,
+		function onSuccess(response) {
+		if (response)
+			loadItems();
+		else
+			alert("Unauthorized");
 	});
 }
 </script>
@@ -52,7 +61,7 @@ function addItem() {
 	<h1>MarkItPlace Backend Tester</h1>
 	<div id="authorize">
 		<h2>Login</h2>
-		User: <span id="userName"></span> <span id="userId"></span><br><br>
+		User: <span id="userName"></span><br><br>
 		Please login using your g.ucla.edu account.<br>
 		<button id="authorize-button" onclick="handleAuthClick()">
 			Login
@@ -75,6 +84,11 @@ function addItem() {
 		</tr>
 		</tbody></table>
 		<button onClick="addItem()">Add</button>
+		
+		<h2>Delete</h2>
+		Item #: 
+		<input type="text" id="toDelete"></input>
+		<button onClick="deleteItem()">Delete</button>
 	</div>
 </body>
 </html>
