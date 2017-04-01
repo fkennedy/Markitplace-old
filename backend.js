@@ -1,10 +1,14 @@
 /*
-Markitplace
+MarkItPlace
 backend.js
 
 Kevin Hsieh
 1 April 2017
 LA Hacks 2017
+
+Required from front-end:
+- Include https://apis.google.com/js/client.js?onload=checkAuth"
+- Include a function onAuth()
 */
 
 // -----------------------------------------------------------------------------
@@ -12,39 +16,31 @@ LA Hacks 2017
 // -----------------------------------------------------------------------------
 
 const CLIENT_ID = "127586888994-75ecbcuv81qd8g4i3480tt512b7iulhe.apps.googleusercontent.com";
-const SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
+const SCOPES = ["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/spreadsheets"];
 
 // Check if current user has authorized this application.
 function checkAuth() {
 	gapi.auth.authorize({
 		client_id: CLIENT_ID,
 		scope: SCOPES,
-		immediate: true
+		immediate: true,
 	}, handleAuthResult);
 }
 
 // Initiate auth flow in response to user clicking authorize button.
-function handleAuthClick(event) {
+function handleAuthClick() {
 	gapi.auth.authorize({
 		client_id: CLIENT_ID,
 		scope: SCOPES, 
-		immediate: false
+		immediate: false,
+		authuser: -1
 	}, handleAuthResult);
 }
 
-// Hide or show auth UI.
+// Call a function on successful authentication.
 function handleAuthResult(response) {
-	if (response && !response.error) {
-		// Hide auth UI
-		document.getElementById("authorize").style.display = "none";
-		document.getElementById("authorized").style.display = "";
-		load_items();
-	} 
-	else {
-		// Show auth UI
-		document.getElementById("authorize").style.display = "";
-		document.getElementById("authorized").style.display = "none";
-	}
+	if (response && !response.error)
+		onAuth();
 }
 
 // -----------------------------------------------------------------------------
@@ -53,52 +49,50 @@ function handleAuthResult(response) {
 
 const scriptId = "Mp2ZVT-Mdv0w0H3VnXtfCmouI75eCkdR7";
 
-function getValues(onSuccess) {
+function userinfo(onSuccess) {
 	let op = gapi.client.request({
-		"root": "https://script.googleapis.com",
-		"path": "v1/scripts/" + scriptId + ":run",
-		"method": "POST",
-		"body": {
-			"function": "getValues",
-			"parameters": []
+		root: "https://www.googleapis.com",
+		path: "oauth2/v1/userinfo",
+		method: "GET"
+	});
+	op.execute(function onReturn(response) {
+		onSuccess(response);
+	});
+}
+
+function call(func, params, onSuccess) {
+	let op = gapi.client.request({
+		root: "https://script.googleapis.com",
+		path: "v1/scripts/" + scriptId + ":run",
+		method: "POST",
+		body: {
+			"function": func,
+			"parameters": params
 		}
 	});
 	op.execute(function onReturn(response) {
 		if (response.error && response.error.status) {
-			// The API encountered a problem before the script started executing.
-			alert('Error calling API: ' + JSON.stringify(resp, null, 2));
-		} 
+			// Encountered a problem before the script started executing.
+			console.log("Error calling API: "
+				+ JSON.stringify(response, null, 2));
+			alert("Error calling API! "
+				+ "Did you authenticate using a g.ucla.edu account?");
+		}
 		else if (response.error) {
 			// The API executed, but the script returned an error.
-			var error = response.error.details[0];
-			alert('Script error! Message: ' + error.errorMessage);
-		} 
+			console.log("Script error! Message: " 
+				+ response.error.details[0].errorMessage);
+			alert("Script error!");
+		}
 		else 
 			onSuccess(response.response.result);
 	});
 }
 
+function getValues(onSuccess) {
+	call("getValues", [], onSuccess);
+}
+
 function appendRow(row, onSuccess) {
-	let op = gapi.client.request({
-		"root": "https://script.googleapis.com",
-		"path": "v1/scripts/" + scriptId + ":run",
-		"method": "POST",
-		"body": {
-			"function": "appendRow",
-			"parameters": [row]
-		}
-	});
-	op.execute(function onReturn(response) {
-		if (response.error && response.error.status) {
-			// The API encountered a problem before the script started executing.
-			alert("Error calling API: " + JSON.stringify(response, null, 2));
-		} 
-		else if (response.error) {
-			// The API executed, but the script returned an error.
-			var error = response.error.details[0];
-			alert("Script error! Message: " + response.errorMessage);
-		} 
-		else
-			onSuccess(response.response.result);
-	});
+	call("appendRow", [row], onSuccess);
 }

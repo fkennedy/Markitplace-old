@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <!--
-Markitplace
+MarkItPlace
 backend_tester.html
 
 Kevin Hsieh
@@ -13,7 +13,20 @@ LA Hacks 2017
 <script type="text/javascript" src="backend.js"></script>
 <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
 <script type="text/javascript">
-function load_items() {
+var userId, userName;
+
+function onAuth() {
+	document.getElementById("authorize-button").innerHTML = "Switch account";
+	document.getElementById("authorized").style.display = "";
+	loadItems();
+	userinfo(function onSuccess(response) {
+		console.log("User info: " + JSON.stringify(response, null, 2));
+		userId = response.id, userName = response.name;
+		document.getElementById("userId").innerHTML = userId;
+		document.getElementById("userName").innerHTML = userName;
+	});
+}
+function loadItems() {
 	getValues(function onSuccess(response) {
 		let output = "";
 		for (let row = 0; row < response.length; row++)
@@ -23,28 +36,32 @@ function load_items() {
 		document.getElementById("items").innerHTML = output;
 	});
 }
-function add_item() {
+function addItem() {
 	appendRow([
+		userId,
+		userName,
 		document.getElementById("item").value,
 		document.getElementById("price").value
 	], function onSuccess(response) {
-		load_items();
+		loadItems();
 	});
 }
 </script>
 </head>
 <body>
-	<h1>Markitplace Backend Tester</h1>
+	<h1>MarkItPlace Backend Tester</h1>
 	<div id="authorize">
-		Please log in using your g.ucla.edu account.<br>
-		<button id="authorize-button" onclick="handleAuthClick(event)">
-			Log In
+		<h2>Login</h2>
+		User: <span id="userName"></span> <span id="userId"></span><br><br>
+		Please login using your g.ucla.edu account.<br>
+		<button id="authorize-button" onclick="handleAuthClick()">
+			Login
 		</button>
 	</div>
 	<div id="authorized" style="display: none">
 		<h2>Buy</h2>
 		<pre id="items"></pre>
-		<button onClick="load_items()">Refresh</button>
+		<button onClick="loadItems()">Refresh</button>
 		
 		<h2>Sell</h2>
 		<table><tbody>
@@ -57,7 +74,7 @@ function add_item() {
 			<td><input type="text" id="price"></td>
 		</tr>
 		</tbody></table>
-		<button onClick="add_item()">Add</button>
+		<button onClick="addItem()">Add</button>
 	</div>
 </body>
 </html>
