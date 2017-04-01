@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<!--
+Markitplace
+backend_tester.html
+
+Kevin Hsieh
+1 April 2017
+LA Hacks 2017
+-->
+<head>
+<title>Markitplace Backend Tester</title>
+<script type="text/javascript" src="backend.js"></script>
+<script type="text/javascript" src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
+<script type="text/javascript">
+function load_items() {
+	getValues(function onSuccess(response) {
+		let output = "";
+		for (let row = 0; row < response.length; row++)
+			for (let col = 0; col < response[row].length; col++)
+				output += response[row][col] 
+					+ (col == response[row].length - 1 ? '\n' : '\t');
+		document.getElementById("items").innerHTML = output;
+	});
+}
+function add_item() {
+	appendRow([
+		document.getElementById("item").value,
+		document.getElementById("price").value
+	], function onSuccess(response) {
+		load_items();
+	});
+}
+</script>
+</head>
+<body>
+	<h1>Markitplace Backend Tester</h1>
+	<div id="authorize">
+		Please log in using your g.ucla.edu account.<br>
+		<button id="authorize-button" onclick="handleAuthClick(event)">
+			Log In
+		</button>
+	</div>
+	<div id="authorized" style="display: none">
+		<h2>Buy</h2>
+		<pre id="items"></pre>
+		<button onClick="load_items()">Refresh</button>
+		
+		<h2>Sell</h2>
+		<table><tbody>
+		<tr>
+			<td>Item</td>
+			<td><input type="text" id="item"></td>
+		</tr>
+		<tr>
+			<td>Price</td>
+			<td><input type="text" id="price"></td>
+		</tr>
+		</tbody></table>
+		<button onClick="add_item()">Add</button>
+	</div>
+</body>
+</html>
