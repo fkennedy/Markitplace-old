@@ -1,11 +1,9 @@
 L.mapbox.accessToken = 'pk.eyJ1Ijoibnd0c2FpIiwiYSI6ImNqMHhkZnJoajAwN3Uyd3FkZGh6Yjg0YWwifQ.xjVvrwXc_XQuc7hnWO4YXw';
-var map = L.mapbox.map('map-leaflet', 'mapbox.streets').setView([34.04048, -118.43791], 12);
+var map = L.mapbox.map('map-leaflet', 'mapbox.streets').setView([34.04048, -118.43791], 13);
 
 // Have a static JSON. Need to make this a dynamic object
-var markers = 
-{ 
-  features: 
-  [
+var markers = { 
+  features: [
     {
       type: 'Feature',
       geometry: {
@@ -177,29 +175,23 @@ map.scrollWheelZoom.disable();
 window.onload = function() {
   var markButton = document.getElementById('MarkItButton');
   markButton.onclick = function() {
-    createMarker(34.1, -118.425, 'TEST', 'TESTING', 'Furniture', 'blue', '#4283f4', 'medium', 'lodging');
+    createMarker('UCLA', 'TEST', 'TESTING', 'Furniture', 'blue', '#4283f4', 'medium', 'lodging');
   }
-  loadFilters();
+  loadCheckboxes();
 }
 
-// Find and store a variable reference to the list of filters.
+// Find and store a variable reference to the list of filters
 var filters = document.getElementById('filters');
 
-// Wait until the marker layer is loaded in order to build a list of possible
-// types. If you are doing this with another featureLayer, you should change
-// map.featureLayer to the variable you have assigned to your featureLayer.
-
-// Initially load the filter list
-function loadFilters() 
+// Initially load the filter checkbox list
+function loadCheckboxes() 
 {
   var categories = {}, types = [];
   var features = featureLayer.getGeoJSON().features;
   for (var i = 0; i < features.length; i++) categories[features[i].properties['category']] = true;
   for (var k in categories) types.push(k);
   var checkboxes = [];
-  for (var i = 0; i < types.length; i++) 
-  {
-    // Create an an input checkbox and label inside.
+  for (var i = 0; i < types.length; i++) {
     var item = filters.appendChild(document.createElement('form'));
     var checkbox = item.appendChild(document.createElement('input'));
     var label = item.appendChild(document.createElement('label'));
@@ -207,67 +199,52 @@ function loadFilters()
     setCheckboxFormat();
     checkbox.id = types[i];
     checkbox.checked = true;
-    // create a label to the right of the checkbox with explanatory text
     label.innerHTML = types[i];
     label.setAttribute('for', types[i]);
-    // Whenever a person clicks on this checkbox, call the update().
     checkbox.addEventListener('change', update);
     checkboxes.push(checkbox);
   }
 
-  function update() 
-  {
+  // Update the checkbox from event listener
+  function update() {
     var enabled = {};
     for (var i = 0; i < checkboxes.length; i++) if (checkboxes[i].checked) enabled[checkboxes[i].id] = true;
     featureLayer.setFilter(function(feature) { return (feature.properties['category'] in enabled); });
   }
 };
 
-// Make the checkboxes filled in
-function setCheckboxFormat() 
-{
-  $('input').addClass('filled-in checkbox-default');
-}
+// Make the checkbox style to be filled in
+function setCheckboxFormat() { $('input').addClass('filled-in checkbox-default'); }
 
 // Create a marker with the specified details, and add it to the current JSON Object
-function createMarker(latitude, longitude, title, description, category, color, marker_color, marker_size, marker_symbol)
-{
-  convertAddressToLatLng("UCLA");
-  markers.features.push(
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [longitude, latitude]
-      },
-      properties: {
-        title: '<h1 style="font-family: Pacifico, cursive; font-size: large;">' + title + '</h1>',
-        description: '<h1 style="font-family: Lato; font-size: small">' + description + '</h1>',
-        'category': category,
-        'color': color,
-        'marker-color': marker_color,
-        'marker-size': marker_size,
-        'marker-symbol': marker_symbol
-      }
-    }
-  );
-  console.log(markers);
-  featureLayer.setGeoJSON(markers);
-}
-
-// Convert from address to latitude longitude
-function convertAddressToLatLng(address)
-{
+function createMarker(address, title, description, category, color, marker_color, marker_size, marker_symbol) {
+  
+  // Find latitude, longitude from the given address
   var geocoder = new google.maps.Geocoder();
-
-  geocoder.geocode( { 'address': address}, function(results, status) 
-  {
-    if (status == google.maps.GeocoderStatus.OK) 
-    {
+  geocoder.geocode( { 'address': address}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
       var latitude = results[0].geometry.location.lat();
       var longitude = results[0].geometry.location.lng();
       console.log(latitude);
       console.log(longitude);
+      markers.features.push(
+      {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [longitude, latitude]
+        },
+        properties: {
+          title: '<h1 style="font-family: Pacifico, cursive; font-size: large;">' + title + '</h1>',
+          description: '<h1 style="font-family: Lato; font-size: small">' + description + '</h1>',
+          'category': category,
+          'color': color,
+          'marker-color': marker_color,
+          'marker-size': marker_size,
+          'marker-symbol': marker_symbol
+        }
+      });
+      featureLayer.setGeoJSON(markers);
     } 
   }); 
 }
