@@ -80,7 +80,8 @@ L.mapbox.accessToken = 'pk.eyJ1Ijoibnd0c2FpIiwiYSI6ImNqMHhkZnJoajAwN3Uyd3FkZGh6Y
 var map = L.mapbox.map('map-leaflet', 'mapbox.streets').setView([34.04048, -118.43791], 12.5);
 
 // Have a static JSON. Need to make this a dynamic object
-var markers = { 
+var markers = {features: []};
+/*var markers = { 
   features: [
     {
       type: 'Feature',
@@ -253,21 +254,31 @@ var markers = {
       }
     }
   ]
-};
+};*/
 
 var featureLayer = L.mapbox.featureLayer(markers).addTo(map);
 featureLayer.setGeoJSON(markers);
 map.scrollWheelZoom.disable();
 
-// When the window loads, set an onclick for the mark button
+// When the window loads
 window.onload = function() {
+  // Load the map to reflect the back end data
+  updateMap();
+
+  // Interface with the button
   var markButton = document.getElementById('MarkItButton');
   markButton.onclick = function() {
-    // createMarker('UCLA', 'TEST', '5.67', 'TESTING', 'Furniture', 'blue', '#4283f4', 'medium', 'lodging');
-    // reloadCheckboxes('color');
+    // GO TO FORM PAGE
   }
+
+  // Load the checkbox filter menus
   loadCheckboxes('categoryFilter', 'category');
   loadCheckboxes('priceFilter', 'price');
+}
+
+// Update the map 
+function updateMap() {
+
 }
 
 // Initialize dom objects
@@ -352,11 +363,10 @@ function update() {
 function setCheckboxFormat() { $('input').addClass('filled-in checkbox-default'); }
 
 // Create a marker with the specified details, and add it to the current JSON Object
-function createMarker(userName, address, title, price, description, category) {
-  
+function createMarker(userName, location, title, price, description, category) {
   // Find latitude, longitude from the given address
   var geocoder = new google.maps.Geocoder();
-  geocoder.geocode( { 'address': address}, function(results, status) {
+  geocoder.geocode( { 'address': location}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
       var latitude = results[0].geometry.location.lat();
       var longitude = results[0].geometry.location.lng();
