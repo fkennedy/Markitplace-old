@@ -1,3 +1,48 @@
+#burger {
+  position: absolute;
+  top: 77px;
+  right: 15px;
+  height: 40px;
+}
+
+.filter-ui {
+  background:#fff;
+  position:absolute;
+  top:151px;
+  right:15px;
+  z-index:100;
+  padding:10px;
+  border-radius:3px;
+}
+
+#welcome {
+  display: none;
+}
+
+@media only screen and (min-width: 1000px)
+{
+  #burger {
+    position: absolute;
+    top: 4px;
+    right: 15px;
+    height: 40px;
+  }
+
+  .filter-ui {
+    background:#fff;
+    position:absolute;
+    top:75px;
+    right:15px;
+    z-index:100;
+    padding:10px;
+    border-radius:3px;
+  }
+
+  #welcome {
+    display: block;
+  }
+}
+
 body { 
   margin:0; 
   padding:0; 
@@ -32,26 +77,6 @@ body {
   padding: 15px 15px 25px 15px;
 }
 
-.filter-ui-desktop {
-  background:#fff;
-  position:absolute;
-  top:75px;
-  right:15px;
-  z-index:100;
-  padding:10px;
-  border-radius:3px;
-}
-
-.filter-ui-mobile {
-  background:#fff;
-  position:absolute;
-  top:151px;
-  right:15px;
-  z-index:100;
-  padding:10px;
-  border-radius:3px;
-}
-
 .checkbox-default[type="checkbox"].filled-in:checked + label:after {
   border: 2px solid #42a5f5;
   background-color: #42a5f5;
@@ -63,24 +88,6 @@ body {
   right: 50px;
 }
 
-#burgerDesktop {
-  position: absolute;
-  top: 4px;
-  right: 15px;
-  height: 40px;
-}
-
-#burgerMobile {
-  position: absolute;
-  top: 80px;
-  right: 15px;
-  height: 40px;
-}
-
-#floating-buttons-desktop {
-  top: 13px;
-}
-
-#floating-buttons-mobile {
+#floating-buttons {
   top: 13px;
 }

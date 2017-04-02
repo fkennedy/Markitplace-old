@@ -80,6 +80,8 @@ function onAuth() {
 function loadItems() {
   getValues(function onSuccess(response) {
     $('#authorize').hide();
+    var welcomeText = document.getElementById('welcome');
+    welcomeText.style.display = "";
     markers = {features: []};
     for (let row = 1; row < response.length; row++) {
       waitingMarkers++;
