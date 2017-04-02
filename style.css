@@ -16,10 +16,6 @@
   border-radius:3px;
 }
 
-#welcome {
-  display: none;
-}
-
 #map-leaflet {
   width: 100%;
   height: calc(100vh - 57px);
@@ -112,8 +108,9 @@ body {
   position: absolute;
   top: 20px;
   left: 15px;
-  color: white;  
+  color: #f7f5f5; 
   z-index: 100;
+  font-family: "Fugaz One";
 }
 
 .checkbox-default[type="checkbox"].filled-in:checked + label:after {

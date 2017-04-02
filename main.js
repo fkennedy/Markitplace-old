@@ -392,8 +392,8 @@ function createMarker(userName, location, title, price, description, category) {
           coordinates: [longitude, latitude]
         },
         properties: {
-          title: '<h1 style="font-family: Pacifico, cursive; font-size: large;">' + title + '($' + price + ')' + '</h1>',
-          description: '<h1 style="font-family: Lato; font-size: small">' + description + '</h1>',
+          title: '<h1 style="font-family: Fugaz One; font-size: medium;">' + title + ' ($' + price + ')' + '</h1>',
+          description: '<h1 style="font-family: Roboto; font-size: small">' + description + '</h1>',
           'category': category,
           'price': price,
           'color': categories[category].color,
