@@ -382,8 +382,6 @@ function createMarker(userName, location, title, price, description, category) {
     if (status == google.maps.GeocoderStatus.OK) {
       var latitude = results[0].geometry.location.lat();
       var longitude = results[0].geometry.location.lng();
-      //console.log(latitude);
-      //console.log(longitude);
       markers.features.push(
       {
         type: 'Feature',  
@@ -392,7 +390,7 @@ function createMarker(userName, location, title, price, description, category) {
           coordinates: [longitude, latitude]
         },
         properties: {
-          title: '<h1 style="font-family: Fugaz One; font-size: medium;">' + title + ' ($' + price + ')' + '</h1>',
+          title: '<b><h1 style="font-family: Roboto; font-size: large;">' + title + ' ($' + price + ')' + '</h1></b>',
           description: '<h1 style="font-family: Roboto; font-size: small">' + description + '</h1>',
           'category': category,
           'price': price,
