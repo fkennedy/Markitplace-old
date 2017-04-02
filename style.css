@@ -67,6 +67,10 @@ body {
   height: 40px;
 }
 
-#floating-buttons {
+#floating-buttons-desktop {
   top: 13px;
+}
+
+#floating-buttons-mobile {
+  
 }
