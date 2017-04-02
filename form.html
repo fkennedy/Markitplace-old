@@ -12,9 +12,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
     <script src="https://use.fontawesome.com/d29dec308b.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Pacifico|Satisfy|Lato|Montserrat" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Pacifico|Satisfy|Lato|Montserrat|" rel="stylesheet">
+    <link href="https://fonts.google.com/specimen/Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Fugaz+One" rel="stylesheet">
+    <link href="form.css" rel="stylesheet">
 
-    <title>Mark It!</title>
+    <title>Sell It!</title>
 
     <!-- Fonts and Styles -->
 
@@ -22,154 +25,248 @@
     <body>
 
         <!--  Javascript Resources -->
-        <script src="form.js"></script>
         <script>
             $(document).ready(function() {
                 $('select').material_select();
             });
+            var id = 1;
+        </script>
+        <script src="form.js"></script>
+        <script type="text/javascript" src="backend.js"></script>
+        <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
+        <script type="text/javascript">
+            var userId, userName;
+
+            function onAuth() {
+                document.getElementById("authorize-button").innerHTML = "Switch account";
+                userinfo(function onSuccess(response) {
+                    console.log("User info: " + JSON.stringify(response, null, 2));
+                    userId = response.id, userName = response.name;
+                    document.getElementById("userName").innerHTML = userName;
+                });
+            }
+            function addItem() {
+                var availabilities = {};
+                var numOfAvailabilities = $("#availability-list").find("select");
+                appendRow(userId, [
+                    userName,
+                    // username, location, title, price, description, category
+                    document.getElementById("location").value,
+                    document.getElementById("item").value,
+                    document.getElementById("price").value,
+                    document.getElementById("description").value,
+                    document.getElementById("category").value
+                ], function onSuccess(response) {
+                    // loadItems();
+                });
+            }
+            function validate() {
+                alert("Validating form...");
+                return false;
+                // Contact
+                var contactType = document.getElementById("contactType").value;
+                var contactInformation = document.getElementById("contactInformation").value;
+                var regex = ^[2-9]\d{2}-\d{3}-\d{4}$;
+                if (contactType == "phone") {
+                    if (contactInformation.length != 12) {
+                        alert("Phone number should be in the format of 000-000-0000");
+                        return false;
+                    }
+                    else if (contactInformation.length == 12) {
+                        if (!regex.test(email)) {
+                            alert("Phone number should be in the format of 000-000-0000");
+                            return false;
+                        }
+                    }
+                }
+
+                // Price
+                var price = document.getElementById("price").value;
+                if (isNaN(price)) {
+                    alert("Price should just be a number");
+                    return false;
+                }
+
+                // Select inputs
+                var category = document.getElementById("category").value;
+                if (!category.value) {
+                    alert("Please select a category");
+                    return false;
+                }
+                for (var i = 1; i < id+1; i++) {
+                    var select = document.getElementById("day"+i)
+                    if (select) {
+                        if (select.value) {
+                            alert("Please fill out 'Day of Week'");
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
         </script>
 
         <!-- Sell an Item Text -->
         <div class="row">
             <div class="col l2 m1 s0"></div>
             <div class="col l8 m10 s12">
-                <div style="text-align: left;">
-                    <div style="display: inline-block; text-align: justify;">
-                        <h2 class ="myHeader" id="contactme" style="position: relative;">Sell an Item</h2>
-                    </div>
+                <div id="title">
+                    <h2 class ="myHeader" id="sellItem">Sell an Item</h2>
                 </div>
             </div>
             <div class="col l2 m1 s0"></div>
         </div>
 
         <!-- Contact Me Form, Hide on Mobile-->
-        <div class="row container">
+        <div class="container">
             <ul>
-                <form id ="foo" class="col s12">
+                <form id ="foo" onsubmit="return validate();">
                     <div class="row">
-                        <!-- Facebook username Section -->
-                        <li>
-                            <div class="input-field col s12">
-                                <i class="material-icons prefix">public</i>
-                                <input id="username" type="text">
-                                <label for="username">Facebook Username</label>
-                            </div>
-                        </li>
-                    </div>
-
-                    <div class="row">
-                        <!-- Item Section -->
-                        <li>
-                            <div class="input-field col s12 l4">
-                                <i class="material-icons prefix">local_offer</i>
-                                <input id="item" type="text">
-                                <label for="item">Item</label>
-                            </div>
-                        </li>
-                        <!-- Price Section -->
-                        <li>
-                            <div class="input-field col s12 l2">
-                                <i class="material-icons prefix">attach_money</i>
-                                <input id="price" type="text">
-                                <label for="price">Price</label>
-                            </div>
-                        </li>
-                        <!-- Category Section -->
-                        <li>
-                            <div class="input-field col s12 l6">
-                                <i class="material-icons prefix"></i>
-                                <select id="category">
-                                    <option value="" selected disabled>Category</option>
-                                    <option value="rocket">Technology</option>
-                                    <option value="clothing-store">Clothing</option>
-                                    <option value="lodging">Furniture</option>
-                                    <option value="car">Transportation</option>
-                                    <option value="home">Household</option>
-                                    <option value="grocery">Groceries</option>
-                                    <option value="restaurant">Food</option>
-                                    <option value="veterinary">Pets</option>
-                                    <option value="information">Other</option>
-                                </select>
-                            </div>
-                        </li>
-                    </div>
-
-                    <!-- Description Section -->
-                    <div class="row">
-                        <li>
-                            <div class="input-field col s12">
-                                <i class="material-icons prefix">description</i>
-                                <textarea id="description" type="text" length="100" class="materialize-textarea"></textarea>
-                                <label for="description">Description</label>
-                            </div>
-                        </li>
-                    </div>
-
-                    <!-- Picture Section -->
-                    <div class="row">
-                        <li>
-                            <div class="file-field input-field col s12">
-                                <div class="btn">
-                                    <span>Upload</span>
-                                    <input id="picture" type="file">
-                                </div>
-                                    <div class="file-path-wrapper">
-                                    <input id="picture" class="file-path validate" type="text">
+                        <div class="col s12 l4">
+                            <div class="row">
+                                <div class="col s12">
+                                    <div id="imageHolder"></div>
                                 </div>
                             </div>
-                        </li>
-                    </div>
+                            <div class="row">
+                                <div class="file-field input-field col s12">
+                                    <div class="row">
+                                        <div class="btn">
+                                            <span>Upload</span>
+                                            <input id="imageUpload" type="file">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="file-path-wrapper">
+                                            <input id="picture" class="file-path validate" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                    <!-- Availability Section -->
-                    <div class="row">
-                        <li>
-                            <div id ="availability-list">
-                                <div id="item1" class="input-field col s12 l2">
-                                    <select id="day1">
-                                        <option value="" disabled selected>Day of Week</option>
-                                        <option value="1">Sunday</option>
-                                        <option value="2">Monday</option>
-                                        <option value="3">Tuesday</option>
-                                        <option value="4">Wednesday</option>
-                                        <option value="5">Thursday</option>
-                                        <option value="6">Friday</option>
-                                        <option value="7">Saturday</option>
+                        <div class="col s12 l8">
+                            <div class="row">
+                                <!-- Contact type Section -->
+                                <div class="input-field col s12 l4">
+                                    <select id="contactType">
+                                        <option value="" selected disabled>Contact Type</option>
+                                        <option value="facebook">Facebook Username</option>
+                                        <option value="phone">Phone Number</option>
                                     </select>
-                                    <label>Day</label>
                                 </div>
-                                <div id="item1" class="input-field col s6 l2">
-                                    <input id="timeFrom1" type="text" value="00:00">
-                                    <label for="timeFrom1">Time From</label>
-                                </div>
-                                <div id="item1" class="input-field col s6 l2">
-                                    <input id="timeTo1" type="text" value="00:00">
-                                    <label for="timeTo1">Time To</label>
-                                </div>
-                                <div id="item1" class="input-field col s7 l5">
-                                    <input id="location1" type="text">
-                                    <label for="location1">Location</label>
-                                </div>
-                                <div id="item1" class="input-field col s5 l1">
-                                    <a class="waves-effect waves-teal btn-flat" id="remove1" onClick="removeAvailability(this.id);">Remove</a>
+                                <!-- Contact information Section -->
+                                <div class="input-field col s12 l8">
+                                    <i class="material-icons prefix">public</i>
+                                    <input id="contactInformation" type="text" required="" aria-required="true" />
+                                    <label for="contactInformation">Contact Information</label>
                                 </div>
                             </div>
-                        </li>
-                        <li>
-                            <div class="col s12">
-                                <a class="waves-effect waves-light btn" onClick="addAvailability();"><i class="material-icons left">add</i>Add Day</a>
+
+
+                            <div class="row">
+                                <!-- Item Section -->
+                                <div class="input-field col s12 l6">
+                                    <i class="material-icons prefix">local_offer</i>
+                                    <input id="product" type="text" required="" aria-required="true" />
+                                    <label for="product">Item</label>
+                                </div>
+                                <div class="input-field switch col s12 l6">
+                                    <label>
+                                        Item
+                                        <input type="checkbox" id="isService" onchange="selectItemType()">
+                                        <span class="lever"></span>
+                                        Service
+                                    </label>
+                                </div>
                             </div>
-                        </li>
+                            <div class="row">
+                                <!-- Price Section -->
+                                <div class="input-field col s12 l5">
+                                    <i class="material-icons prefix">attach_money</i>
+                                    <input id="price" type="text" required="" aria-required="true" />
+                                    <label for="price">Price</label>
+                                </div>
+                                <!-- Category Section -->
+                                <div id="service" class="input-field col s12 l7" style="display:none">
+                                    <select id="pricing">
+                                        <option value="" selected disabled>Pricing</option>
+                                        <option value="flatRate">Flat Rate</option>
+                                        <option value="perHour">Per Hour</option>
+                                        <option value="perItem">Per Item</option>
+                                        <option value="contact">Contact Seller</option>
+                                    </select>
+                                </div>
+                                <div id="item" class="input-field col s12 l7">
+                                    <select id="category">
+                                        <option value="" selected disabled>Category</option>
+                                        <option value="Technology">Technology</option>
+                                        <option value="Clothing">Clothing</option>
+                                        <option value="Furniture">Furniture</option>
+                                        <option value="Transportation">Transportation</option>
+                                        <option value="Household">Household</option>
+                                        <option value="Groceries">Groceries</option>
+                                        <option value="Food">Food</option>
+                                        <option value="Pets">Pets</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Description Section -->
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">description</i>
+                                    <textarea id="description" type="text" length="100" class="materialize-textarea"></textarea>
+                                    <label for="description">Description</label>
+                                </div>
+                            </div>
+
+                            <!-- Availability Section -->
+                            <div class="row">
+                                <div id ="availability-list">
+                                    <div id="item1" class="input-field col s12 l3">
+                                        <select id="day1">
+                                            <option value="" disabled selected>Day of Week</option>
+                                            <option value="0">Sunday</option>
+                                            <option value="1">Monday</option>
+                                            <option value="2">Tuesday</option>
+                                            <option value="3">Wednesday</option>
+                                            <option value="4">Thursday</option>
+                                            <option value="5">Friday</option>
+                                            <option value="6">Saturday</option>
+                                        </select>
+                                        <label>Day</label>
+                                    </div>
+                                    <div id="item1" class="input-field col s6 l2">
+                                        <input id="timeFrom1" type="text" value="00:00" required="" aria-required="true" />
+                                        <label for="timeFrom1">Time From</label>
+                                    </div>
+                                    <div id="item1" class="input-field col s6 l2">
+                                        <input id="timeTo1" type="text" value="00:00" required="" aria-required="true" />
+                                        <label for="timeTo1">Time To</label>
+                                    </div>
+                                    <div id="item1" class="input-field col s7 l4">
+                                        <input id="location1" type="text" required="" aria-required="true" />
+                                        <label for="location1">Location</label>
+                                    </div>
+                                    <div id="item1" class="input-field col s5 l1">
+                                        <a class="waves-effect waves-teal btn-flat" onClick="removeAvailability(this.parentNode.id);">Remove</a>
+                                    </div>
+                                </div>
+                                <div class="col s12">
+                                    <a class="waves-effect waves-light btn" onClick="addAvailability(this.parentNode.parentNode);"><i class="material-icons left">add</i>Add Day</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Button -->
                     <div class="row">
-                        <li>
-                            <div class="col l2 m12 s12">
-                                <div id="success"></div>
-                                <a onclick="Materialize.toast('Your request to sell an item has been sent.', 4000)" type="submit" class="btn waves-effect waves-light red lighten-1 btn z-depth-1">Submit<i class="material-icons right">send</i></a>
-                            </div>
-                            <div class="col l10 m0 s0"></div>
-                        </li>
+                        <div class="center col l4 offset-l4 m12 s12">
+                            <div id="success"></div>
+                            <a type="submit" class="btn waves-effect waves-light red lighten-1 btn z-depth-1">Mark It<i class="material-icons right">send</i></a>
+                        </div>
                     </div>
                 </form>
             </ul>
