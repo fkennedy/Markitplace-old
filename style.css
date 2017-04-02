@@ -53,9 +53,16 @@ body {
   right: 50px;
 }
 
-#burger {
+#burgerDesktop {
   position: absolute;
   top: 4px;
+  right: 15px;
+  height: 40px;
+}
+
+#burgerMobile {
+  position: absolute;
+  top: 50px;
   right: 15px;
   height: 40px;
 }
