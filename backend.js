@@ -24,6 +24,7 @@ function checkAuth() {
 		client_id: CLIENT_ID,
 		scope: SCOPES,
 		immediate: true,
+		authuser: 1
 	}, handleAuthResult);
 }
 
