@@ -134,6 +134,7 @@ body {
 #authorize-button {
   background-color: #5ecacd !important;
   font-family: "Fugaz One";
+  color: #f7f5f5;
 }
 
 #burgerButton {
