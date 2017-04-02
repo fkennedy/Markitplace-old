@@ -287,8 +287,8 @@ function deleteItem() {
 // When the window loads
 window.onload = function() {
   // Interface with the button
-  var sellButton = document.getElementById('SellItButton');
-  sellButton.onclick = function() {
+  var listButton = document.getElementById('ListItButton');
+  listButton.onclick = function() {
     // GO TO FORM PAGE
   }
 

@@ -24,7 +24,7 @@
 }
 
 .slogan {
-  font-size: 30px;
+  font-size: 25px;
   font-family: "Fugaz One";
 }
 
@@ -118,13 +118,14 @@ body {
   background-color: #ef8233;
 }
 
-#SellItButton {
+#ListItButton {
   position: absolute;
   background-color: #ef8233 !important;
   left: 50%;
   transform: translate(-50%, 0%);
   bottom: 5%;
   font-family: "Fugaz One";
+  color: #f7f5f5;
 }
 
 #floating-buttons {
