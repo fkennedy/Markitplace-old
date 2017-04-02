@@ -287,8 +287,8 @@ function deleteItem() {
 // When the window loads
 window.onload = function() {
   // Interface with the button
-  var markButton = document.getElementById('MarkItButton');
-  markButton.onclick = function() {
+  var sellButton = document.getElementById('SellItButton');
+  sellButton.onclick = function() {
     // GO TO FORM PAGE
   }
 
@@ -444,8 +444,5 @@ function filterButtonPressed(filter_type) {
   } else if (filter_type == 'price') {
     categoryFilter.style.display = "none";
     priceFilter.style.display = "";
-  } else if (filter_type == 'none') {
-    categoryFilter.style.display = "none";
-    priceFilter.style.display = "none";
-  }
+  } 
 }

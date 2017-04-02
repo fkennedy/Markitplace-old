@@ -59,6 +59,10 @@
   }
 }
 
+nav {
+  background-color: #5ecacd !important;
+}
+
 body { 
   margin:0; 
   padding:0; 
@@ -91,12 +95,28 @@ body {
   background-color: #42a5f5;
 }
 
-#MarkItButton {
+#SellItButton {
   position: absolute;
-  bottom: 50px;
-  right: 50px;
+  background-color: #ef8233 !important;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  bottom: 5%;
+  font-family: "Fugaz One";
 }
 
 #floating-buttons {
   top: 13px;
+}
+
+#authorize-button {
+  background-color: #5ecacd !important;
+  font-family: "Fugaz One";
+}
+
+#burgerButton {
+  background-color: #cebcbc !important;
+}
+
+#filterButton {
+  background-color: #726363 !important;
 }

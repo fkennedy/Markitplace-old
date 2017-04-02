@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" type="text/css" href="style.css">
+  
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet"/>
@@ -13,6 +13,7 @@
   <link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3f3kG0_wB2qIDI6ZEPY_iTkug86bOqHI"
   type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
   <script type="text/javascript" src="backend.js"></script>
   <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
   <title>Markitplace | LA Hacks</title>
@@ -24,7 +25,7 @@
 
 <div>
   <nav>
-    <div class="nav-wrapper black nav-wrapper-fixed-top z-depth-1" id= "navbar">
+    <div class="nav-wrapper nav-wrapper-fixed-top z-depth-1" id="navbar">
       <a class="brand-logo center">MARKITPLACE</a>
     </div>
   </nav>
@@ -38,24 +39,23 @@
   <script src="main.js"></script>
 </div>
 
-<!-- Mark It Button -->
-<a class="black waves-effect waves-light btn-medium z-depth-1 btn" href="#" id="MarkItButton">Mark It<i class="material-icons right">location_on</i></a>
+<!-- Sell It Button -->
+<a class="waves-effect waves-light btn-medium z-depth-1 btn" href="#" id="SellItButton">Sell It<i class="material-icons right">attach_money</i></a>
 
 <div class="login-box" id="authorize">
   <i>Please login using your g.ucla.edu account.</i>
   <br>
   <br>
-  <a class="black waves-effect waves-light btn-medium z-depth-1 btn" href="#" id="authorize-button" onclick="handleAuthClick()">Login<i class="material-icons right">location_on</i></a>
+  <a class="waves-effect waves-light btn-medium z-depth-1 btn" href="#" id="authorize-button" onclick="handleAuthClick()">Login<i class="material-icons right">person</i></a>
 </div>
 
 <div class="fixed-action-btn horizontal click-to-toggle" id="burger">
-  <a class="btn-floating btn-large red">
+  <a class="btn-floating btn-large" id="burgerButton">
     <i class="material-icons">menu</i>
   </a>
   <ul id="floating-buttons">
-    <li><a href="javascript:filterButtonPressed('category')" class="btn-floating red"><i class="material-icons">turned_in</i></a></li>
-    <li><a href="javascript:filterButtonPressed('price')" class="btn-floating yellow darken-1"><i class="material-icons">attach_money</i></a></li>
-    <li><a href="javascript:filterButtonPressed('none')" class="btn-floating green"><i class="material-icons">not_interested</i></a></li>
+    <li><a id="filterButton" href="javascript:filterButtonPressed('category')" class="btn-floating"><i class="material-icons">turned_in</i></a></li>
+    <li><a id="filterButton" href="javascript:filterButtonPressed('price')" class="btn-floating"><i class="material-icons">attach_money</i></a></li>
   </ul>
 </div>
 
