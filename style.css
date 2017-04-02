@@ -80,9 +80,9 @@ body {
   z-index: 100;
 }
 
-.login-box {
-  width: 100%;
-  height: 40%;
+#authorize {
+  width: 100% !important;
+  height: 40% !important;
   position: absolute;
   left: 50%;
   bottom: 0px;
@@ -117,13 +117,23 @@ body {
 }
 
 #burgerButton {
-  background-color: #cebcbc !important;
+  background-color: #726363 !important;
 }
 
 #filterButton1 {
-  background-color: #726363 !important;
+  background-color: #cebcbc !important;
 }
 
 #filterButton2 {
-  background-color: #726363 !important;
+  background-color: #cebcbc !important;
+}
+
+.slogan {
+  font-size: 50px;
+  font-family: "Fugaz One";
+}
+
+#login-label {
+  font-family: "Roboto";
+  color: #726363;
 }
